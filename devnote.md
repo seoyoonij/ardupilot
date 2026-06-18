@@ -18,24 +18,26 @@
     then bypass Linux GUI + launch isaac-uav:
     ``python3 ../Tools/autotest/sim_vehicle.py -v ArduPlane -f json:127.0.0.1 --no-mavproxy -A "--sim-address=127.0.0.1 --sim-port-in=9002"``
 
-    (below is w/o IsaacSim
-    then bypass Linux GUI:
+    (legacy: w/o IsaacSim
     ``python3 ../Tools/autotest/sim_vehicle.py -v ArduPlane --no-mavproxy`` # for traditional fixed-wing
      or ``python3 ../Tools/autotest/sim_vehicle.py -v ArduPlane -f quadplane-tailsitter --no-mavproxy``  # for tailsitter)
      
 4. Launch intermediate network proxy router for telemetry bridge (Windows CMD) 
-    ``python -m MAVProxy.mavproxy --master=tcp:127.0.0.1:5760 --out=udp:127.0.0.1:14550 --nodisplay`` 
-    (MAVProxy connects to Cygwin over 5760 and pushes MAVLink data directly out to Windows UDP port 14550, which mathces 'connection_baseport' of isaacsim code)
+    ``python -m MAVProxy.mavproxy --master=tcp:127.0.0.1:5760 --out=udp:127.0.0.1:14550 --out=udp:127.0.0.1:14551``
 
-5. Open and connect MissionPlanner: 
+    (legacy: w/o IsaacSim
+    ``python -m MAVProxy.mavproxy --master=tcp:127.0.0.1:5760 --out=udp:127.0.0.1:14550 --nodisplay`` )
+    MAVProxy connects to Cygwin over 5760 and pushes MAVLink data directly out to Windows UDP port 14550, which mathces 'connection_baseport' of isaacsim code
+
+5. Launch IsaacSim fixed-wing example standalone
+    - ``cd C:\isaac-uav``
+    - ``C:\isaac-sim\python.bat examples\12_ardupilot_fixedwing.py``
+
+6. Open and connect MissionPlanner: 
     - UDP default baud rate 115200
     - Connect
     - Remote host 127.0.01 (or localhost)
     - UDP port 14550
-
-6. Launch IsaacSim fixed-wing example standalone
-    - ``cd C:\isaac-uav``
-    - ``C:\isaac-sim\python.bat examples\12_ardupilot_fixedwing.py``
     
 ----
 n.b. 
